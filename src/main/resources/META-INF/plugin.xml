@@ -8,22 +8,31 @@
     <name>Fastendpointsplugin</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor url="https://www.yourcompany.com">YourCompany</vendor>
+    <vendor url="https://github.com/hmrguez">hmrguez</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
     <description><![CDATA[
-        Enter short description for your plugin here.<br>
-        <em>most HTML tags may be used</em>
+        Unofficial FastEndpoints companion for Rider: performs static and post-build analysis to discover FastEndpoints Endpoint classes and lists them in a dedicated tool window.
     ]]></description>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.rider</depends>
 
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-
+        <toolWindow id="FastEndpoints" anchor="right" factoryClass="hmrguez.fastendpointsplugin.toolwindow.FastEndpointsToolWindowFactory"/>
     </extensions>
+
+    <actions>
+        <action id="hmrguez.fastendpointsplugin.NewThingAction"
+                class="hmrguez.fastendpointsplugin.actions.NewThingAction"
+                text="New Thing"
+                description="Create a new Thing (empty class)">
+            <add-to-group group-id="NewGroup" anchor="last"/>
+        </action>
+    </actions>
 </idea-plugin>
