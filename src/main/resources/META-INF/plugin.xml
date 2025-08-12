@@ -16,7 +16,6 @@
 
     <!-- Product and plugin compatibility requirements. -->
     <depends>com.intellij.modules.platform</depends>
-    <depends>com.intellij.modules.rider</depends>
 
     <!-- Extension points defined by the plugin. -->
     <extensions defaultExtensionNs="com.intellij">
