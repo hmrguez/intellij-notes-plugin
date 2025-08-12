@@ -13,7 +13,6 @@ import com.intellij.ui.content.ContentFactory
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.application.ApplicationManager
-import hmrguez.fastendpointsplugin.notes.NotesService
 import java.awt.BorderLayout
 import javax.swing.DefaultListCellRenderer
 import javax.swing.JList

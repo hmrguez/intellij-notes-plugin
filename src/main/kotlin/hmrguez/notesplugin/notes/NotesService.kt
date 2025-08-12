@@ -1,4 +1,4 @@
-package hmrguez.fastendpointsplugin.notes
+package hmrguez.notesplugin.notes
 
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.Service

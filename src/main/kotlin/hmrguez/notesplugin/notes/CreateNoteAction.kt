@@ -1,4 +1,4 @@
-package hmrguez.fastendpointsplugin.notes
+package hmrguez.notesplugin.notes
 
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent

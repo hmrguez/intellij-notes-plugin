@@ -1,6 +1,5 @@
 package hmrguez.notesplugin.notes
 
-import hmrguez.fastendpointsplugin.notes.NotesService
 import java.awt.*
 import javax.swing.*
 import javax.swing.border.EmptyBorder
