@@ -121,10 +121,13 @@ class NotesToolWindowFactory : ToolWindowFactory, DumbAware {
         )
 
         // Create a text area for editing the note content
-        val contentTextArea = com.intellij.ui.components.JBTextArea(note.content).apply {
+        val contentTextArea = javax.swing.JTextArea(note.content).apply {
             rows = 4
             lineWrap = true
             wrapStyleWord = true
+            font = com.intellij.util.ui.UIUtil.getLabelFont()
+            background = com.intellij.util.ui.UIUtil.getTextFieldBackground()
+            foreground = com.intellij.util.ui.UIUtil.getTextFieldForeground()
         }
         val contentScrollPane = com.intellij.ui.components.JBScrollPane(contentTextArea).apply {
             border = javax.swing.BorderFactory.createTitledBorder("Edit Note Content")
