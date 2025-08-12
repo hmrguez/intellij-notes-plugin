@@ -27,38 +27,15 @@ class NotesToolWindowFactory : ToolWindowFactory, DumbAware {
         val list = JBList(listModel)
         list.selectionMode = ListSelectionModel.SINGLE_SELECTION
 
-        fun badgeHtml(tag: String): String {
-            val key = tag.lowercase()
-            val color = when (key) {
-                "todo" -> "#0969da"
-                "mental" -> "#8250df"
-                "giberish" -> "#9a6700"
-                else -> "#57606a"
-            }
-            // Use simple, Swing-safe HTML without CSS: colored text in brackets + non-breaking space
-            return "<font color='${color}'>[${tag}]</font>&nbsp;"
-        }
-
         list.cellRenderer = object : DefaultListCellRenderer() {
             override fun getListCellRendererComponent(
                 list: JList<*>, value: Any?, index: Int, isSelected: Boolean, cellHasFocus: Boolean
             ): java.awt.Component {
-                val comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
-                if (value is NotesService.Note) {
-                    val firstLine = value.content.lines().firstOrNull()?.take(80) ?: "(empty)"
-                    // Stable tag order like GitHub (by available set), then any others alphabetically
-                    val order = NotesService.AVAILABLE_TAGS.withIndex().associate { it.value to it.index }
-                    val sortedTags = value.tags.sortedWith(compareBy({ order[it] ?: Int.MAX_VALUE }, { it }))
-                    val tags = sortedTags.joinToString(separator = "") { badgeHtml(it) }
-                    val html = """
-                        <html>
-                          <b>${firstLine}</b><br/>
-                          ${tags}
-                        </html>
-                    """.trimIndent()
-                    text = html
+                return if (value is NotesService.Note) {
+                    NoteCellPanel(value, isSelected, cellHasFocus)
+                } else {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
                 }
-                return comp
             }
         }
 
