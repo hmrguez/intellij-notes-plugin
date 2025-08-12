@@ -99,7 +99,7 @@ class NotesToolWindowFactory : ToolWindowFactory, DumbAware {
 
         panel.add(decorated, BorderLayout.CENTER)
 
-        val content = ContentFactory.getInstance().createContent(panel, "Notes", false)
+        val content = ContentFactory.getInstance().createContent(panel, null, false)
 
         // Create a Disposable for this tool window content and subscribe to updates
         val disposable: Disposable = Disposer.newDisposable("NotesToolWindowDisposable")
