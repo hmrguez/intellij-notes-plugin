@@ -17,7 +17,7 @@ class NotesService(private val project: Project) : PersistentStateComponent<Note
     }
 
     companion object {
-        val AVAILABLE_TAGS: List<String> = listOf("todo", "mental", "giberish")
+        val AVAILABLE_TAGS: MutableList<String> = mutableListOf("todo", "mental", "giberish")
         val TOPIC: Topic<NotesListener> = Topic.create("Notes changes", NotesListener::class.java)
     }
 
@@ -30,6 +30,7 @@ class NotesService(private val project: Project) : PersistentStateComponent<Note
 
     class State {
         var notes: MutableList<Note> = mutableListOf()
+        var availableTags: MutableList<String> = mutableListOf("todo", "mental", "giberish")
     }
 
     private var state = State()
@@ -38,6 +39,9 @@ class NotesService(private val project: Project) : PersistentStateComponent<Note
 
     override fun loadState(state: State) {
         this.state = state
+        // Sync available tags with the loaded state
+        AVAILABLE_TAGS.clear()
+        AVAILABLE_TAGS.addAll(state.availableTags)
     }
 
     fun allNotes(): List<Note> = state.notes.toList()
@@ -56,5 +60,16 @@ class NotesService(private val project: Project) : PersistentStateComponent<Note
             it.tags = normalized.toMutableSet()
             project.messageBus.syncPublisher(TOPIC).notesChanged()
         }
+    }
+
+    fun addAvailableTag(tag: String): Boolean {
+        val normalized = tag.trim().lowercase()
+        if (normalized.isNotEmpty() && !AVAILABLE_TAGS.contains(normalized)) {
+            AVAILABLE_TAGS.add(normalized)
+            state.availableTags.add(normalized)
+            project.messageBus.syncPublisher(TOPIC).notesChanged()
+            return true
+        }
+        return false
     }
 }

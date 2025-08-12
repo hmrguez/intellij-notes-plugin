@@ -110,9 +110,14 @@ class NotesToolWindowFactory : ToolWindowFactory, DumbAware {
     override fun shouldBeAvailable(project: Project): Boolean = true
 
     private fun showTagEditDialog(project: Project, note: NotesService.Note, onTagsChanged: (Set<String>) -> Unit) {
+        val notesService = project.service<NotesService>()
         val tagEditor = TagEditor(
-            availableTags = NotesService.AVAILABLE_TAGS,
-            selectedTags = note.tags.toMutableSet()
+            availableTags = NotesService.AVAILABLE_TAGS.toMutableList(),
+            selectedTags = note.tags.toMutableSet(),
+            onNewTagCreated = { newTag ->
+                // Add the new tag to the global available tags list
+                notesService.addAvailableTag(newTag)
+            }
         )
 
         val dialog = object : com.intellij.openapi.ui.DialogWrapper(project) {
@@ -124,7 +129,7 @@ class NotesToolWindowFactory : ToolWindowFactory, DumbAware {
             override fun createCenterPanel(): javax.swing.JComponent {
                 val panel = JPanel(BorderLayout()).apply {
                     add(tagEditor, BorderLayout.CENTER)
-                    preferredSize = java.awt.Dimension(400, 150)
+                    preferredSize = java.awt.Dimension(450, 200)
                 }
                 return panel
             }

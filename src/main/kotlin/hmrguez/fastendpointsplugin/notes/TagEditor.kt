@@ -7,14 +7,55 @@ import java.awt.event.MouseEvent
 import javax.swing.*
 
 class TagEditor(
-    private val availableTags: List<String>,
+    private val availableTags: MutableList<String>,
     private val selectedTags: MutableSet<String> = mutableSetOf(),
-    private val onSelectionChanged: (Set<String>) -> Unit = {}
-) : JPanel(FlowLayout(FlowLayout.LEFT, 5, 5)) {
+    private val onSelectionChanged: (Set<String>) -> Unit = {},
+    private val onNewTagCreated: (String) -> Unit = {}
+) : JPanel(BorderLayout()) {
+
+    private val chipsPanel = JPanel(FlowLayout(FlowLayout.LEFT, 5, 5))
+    private val newTagField = com.intellij.ui.components.JBTextField()
+    private val addTagButton = JButton("Add Tag")
 
     init {
         background = com.intellij.util.ui.UIUtil.getPanelBackground()
-        border = BorderFactory.createTitledBorder("Select Tags")
+
+        // Setup chips panel
+        chipsPanel.background = com.intellij.util.ui.UIUtil.getPanelBackground()
+        chipsPanel.border = BorderFactory.createTitledBorder("Select Tags")
+
+        // Setup new tag input panel
+        val inputPanel = JPanel(FlowLayout(FlowLayout.LEFT, 5, 5))
+        inputPanel.background = com.intellij.util.ui.UIUtil.getPanelBackground()
+        inputPanel.border = BorderFactory.createTitledBorder("Create New Tag")
+
+        newTagField.columns = 15
+        newTagField.emptyText.text = "Enter new tag name..."
+
+        addTagButton.addActionListener {
+            val newTag = newTagField.text.trim().lowercase()
+            if (newTag.isNotEmpty() && !availableTags.contains(newTag)) {
+                availableTags.add(newTag)
+                selectedTags.add(newTag)
+                newTagField.text = ""
+                onNewTagCreated(newTag)
+                refreshChips()
+            }
+        }
+
+        // Add Enter key support to text field
+        newTagField.addActionListener {
+            addTagButton.doClick()
+        }
+
+        inputPanel.add(JLabel("New tag:"))
+        inputPanel.add(newTagField)
+        inputPanel.add(addTagButton)
+
+        // Layout the components
+        add(chipsPanel, BorderLayout.CENTER)
+        add(inputPanel, BorderLayout.SOUTH)
+
         refreshChips()
     }
 
@@ -27,7 +68,7 @@ class TagEditor(
     fun getSelectedTags(): Set<String> = selectedTags.toSet()
 
     private fun refreshChips() {
-        removeAll()
+        chipsPanel.removeAll()
 
         availableTags.forEach { tag ->
             val isSelected = selectedTags.contains(tag)
@@ -40,11 +81,11 @@ class TagEditor(
                 refreshChips()
                 onSelectionChanged(selectedTags.toSet())
             }
-            add(chip)
+            chipsPanel.add(chip)
         }
 
-        revalidate()
-        repaint()
+        chipsPanel.revalidate()
+        chipsPanel.repaint()
     }
 
     private fun createSelectableChip(tag: String, isSelected: Boolean, onToggle: (Boolean) -> Unit): JComponent {
