@@ -1,4 +1,4 @@
-package hmrguez.fastendpointsplugin.notes
+package hmrguez.notesplugin.notes
 
 import com.intellij.ui.JBColor
 import java.awt.*

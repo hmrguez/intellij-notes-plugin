@@ -1,4 +1,4 @@
-package hmrguez.fastendpointsplugin.notes
+package hmrguez.notesplugin.notes
 
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.DumbAware
@@ -13,6 +13,7 @@ import com.intellij.ui.content.ContentFactory
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.application.ApplicationManager
+import hmrguez.fastendpointsplugin.notes.NotesService
 import java.awt.BorderLayout
 import javax.swing.DefaultListCellRenderer
 import javax.swing.JList

@@ -1,7 +1,7 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>hmrguez.fastendpointsplugin</id>
+    <id>hmrguez.notesplugin</id>
 
     <!-- Public plugin name should be written in Title Case. -->
     <name>Notes</name>
@@ -20,12 +20,12 @@
 
     <!-- Extension points defined by the plugin. -->
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Notes" anchor="left" factoryClass="hmrguez.fastendpointsplugin.notes.NotesToolWindowFactory"/>
+        <toolWindow id="Notes" anchor="left" factoryClass="hmrguez.notesplugin.notes.NotesToolWindowFactory"/>
     </extensions>
 
     <actions>
-        <action id="hmrguez.fastendpointsplugin.actions.CreateNote"
-                class="hmrguez.fastendpointsplugin.notes.CreateNoteAction"
+        <action id="hmrguez.notesplugin.actions.CreateNote"
+                class="hmrguez.notesplugin.notes.CreateNoteAction"
                 text="Create Note"
                 description="Create a new note">
             <add-to-group group-id="ToolsMenu" anchor="last"/>

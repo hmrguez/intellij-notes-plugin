@@ -1,1 +1,2 @@
-rootProject.name = "fastendpointsplugin"
+rootProject.name = "notesplugin"
+
