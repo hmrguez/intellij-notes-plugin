@@ -84,7 +84,22 @@ class NotesToolWindowFactory : ToolWindowFactory, DumbAware {
                 }
             }
             .setEditActionUpdater { list.selectedValue != null }
-            .disableRemoveAction()
+            .setRemoveAction {
+                val selected = list.selectedValue ?: return@setRemoveAction
+                val result = Messages.showYesNoDialog(
+                    project,
+                    "Are you sure you want to delete this note?\n\n\"${selected.content.take(100)}${if (selected.content.length > 100) "..." else ""}\"",
+                    "Delete Note",
+                    "Delete",
+                    "Cancel",
+                    Messages.getQuestionIcon()
+                )
+                if (result == Messages.YES) {
+                    notesService.deleteNote(selected.id)
+                    refresh()
+                }
+            }
+            .setRemoveActionUpdater { list.selectedValue != null }
             .createPanel()
 
         panel.add(decorated, BorderLayout.CENTER)

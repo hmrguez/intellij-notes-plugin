@@ -69,6 +69,14 @@ class NotesService(private val project: Project) : PersistentStateComponent<Note
         }
     }
 
+    fun deleteNote(id: String) {
+        val noteIndex = state.notes.indexOfFirst { it.id == id }
+        if (noteIndex != -1) {
+            state.notes.removeAt(noteIndex)
+            project.messageBus.syncPublisher(TOPIC).notesChanged()
+        }
+    }
+
     fun addAvailableTag(tag: String): Boolean {
         val normalized = tag.trim().lowercase()
         if (normalized.isNotEmpty() && !AVAILABLE_TAGS.contains(normalized)) {
