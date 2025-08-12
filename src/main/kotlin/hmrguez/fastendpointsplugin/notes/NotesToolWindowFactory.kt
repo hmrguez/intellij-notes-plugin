@@ -78,18 +78,8 @@ class NotesToolWindowFactory : ToolWindowFactory, DumbAware {
             }
             .setEditAction {
                 val selected = list.selectedValue ?: return@setEditAction
-                val current = selected.tags.joinToString(", ")
-                val tagsStr = Messages.showInputDialog(
-                    project,
-                    "Edit tags (comma separated). Allowed: ${NotesService.AVAILABLE_TAGS.joinToString(", ")}",
-                    "Edit Tags",
-                    Messages.getQuestionIcon(),
-                    current,
-                    null
-                )
-                if (tagsStr != null) {
-                    val tags = parseTags(tagsStr)
-                    notesService.updateNoteTags(selected.id, tags)
+                showTagEditDialog(project, selected) { newTags ->
+                    notesService.updateNoteTags(selected.id, newTags)
                     refresh()
                 }
             }
@@ -118,4 +108,30 @@ class NotesToolWindowFactory : ToolWindowFactory, DumbAware {
     }
 
     override fun shouldBeAvailable(project: Project): Boolean = true
+
+    private fun showTagEditDialog(project: Project, note: NotesService.Note, onTagsChanged: (Set<String>) -> Unit) {
+        val tagEditor = TagEditor(
+            availableTags = NotesService.AVAILABLE_TAGS,
+            selectedTags = note.tags.toMutableSet()
+        )
+
+        val dialog = object : com.intellij.openapi.ui.DialogWrapper(project) {
+            init {
+                title = "Edit Tags for Note"
+                init()
+            }
+
+            override fun createCenterPanel(): javax.swing.JComponent {
+                val panel = JPanel(BorderLayout()).apply {
+                    add(tagEditor, BorderLayout.CENTER)
+                    preferredSize = java.awt.Dimension(400, 150)
+                }
+                return panel
+            }
+        }
+
+        if (dialog.showAndGet()) {
+            onTagsChanged(tagEditor.getSelectedTags())
+        }
+    }
 }
