@@ -22,4 +22,13 @@
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Notes" anchor="left" factoryClass="hmrguez.fastendpointsplugin.notes.NotesToolWindowFactory"/>
     </extensions>
+
+    <actions>
+        <action id="hmrguez.fastendpointsplugin.actions.CreateNote"
+                class="hmrguez.fastendpointsplugin.notes.CreateNoteAction"
+                text="Create Note"
+                description="Create a new note">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+    </actions>
 </idea-plugin>
