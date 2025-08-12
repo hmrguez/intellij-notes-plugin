@@ -6,27 +6,72 @@
     <!-- Public plugin name should be written in Title Case. -->
     <name>Notes</name>
 
+    <!-- Plugin version -->
+    <version>1.0.0</version>
+
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor url="https://github.com/hmrguez">hmrguez</vendor>
+    <vendor email="hmrguez@example.com" url="https://github.com/hmrguez">hmrguez</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager. -->
     <description><![CDATA[
-        Simple Notes plugin: a dedicated sidebar tool window listing your notes with a + button to add new ones.
+        <h3>Simple Notes Plugin</h3>
+        <p>A lightweight and intuitive notes plugin that adds a dedicated sidebar tool window to your IDE for quick note-taking and organization.</p>
+
+        <h4>Features:</h4>
+        <ul>
+            <li><strong>Quick Note Creation:</strong> Add notes instantly with the + button or through the Tools menu</li>
+            <li><strong>Visual Tag System:</strong> Organize notes with colorful, clickable tag chips</li>
+            <li><strong>Custom Tags:</strong> Create your own tags dynamically - no predefined limitations</li>
+            <li><strong>Rich Editing:</strong> Edit both note content and tags in a unified dialog</li>
+            <li><strong>Persistent Storage:</strong> Notes are saved per project and persist across IDE sessions</li>
+            <li><strong>Clean UI:</strong> Native IntelliJ look and feel that adapts to your theme</li>
+            <li><strong>Safe Deletion:</strong> Delete notes with confirmation to prevent accidents</li>
+        </ul>
+
+        <h4>Perfect for:</h4>
+        <ul>
+            <li>TODO lists and task tracking</li>
+            <li>Code snippets and reminders</li>
+            <li>Project documentation notes</li>
+            <li>Meeting notes and ideas</li>
+            <li>Development thoughts and mental notes</li>
+        </ul>
+
+        <p>Works seamlessly across all JetBrains IDEs including IntelliJ IDEA, PyCharm, WebStorm, PhpStorm, CLion, GoLand, RubyMine, Rider, and Android Studio.</p>
     ]]></description>
+
+    <!-- Change notes for this version -->
+    <change-notes><![CDATA[
+        <h4>Version 1.0.0</h4>
+        <ul>
+            <li>Initial release</li>
+            <li>Notes tool window with add, edit, and delete functionality</li>
+            <li>Visual tag editor with chip-based selection</li>
+            <li>Dynamic custom tag creation</li>
+            <li>Persistent note storage per project</li>
+            <li>Native IntelliJ UI integration</li>
+            <li>Support for all JetBrains IDEs</li>
+        </ul>
+    ]]></change-notes>
+
+    <!-- Minimum and maximum IDE versions -->
+    <idea-version since-build="251" until-build="999.*"/>
 
     <!-- Product and plugin compatibility requirements. -->
     <depends>com.intellij.modules.platform</depends>
 
     <!-- Extension points defined by the plugin. -->
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Notes" anchor="left" factoryClass="hmrguez.notesplugin.notes.NotesToolWindowFactory"/>
+        <toolWindow id="Notes" anchor="left" factoryClass="hmrguez.notesplugin.notes.NotesToolWindowFactory"
+                   icon="/icons/notes.svg"/>
     </extensions>
 
     <actions>
         <action id="hmrguez.notesplugin.actions.CreateNote"
                 class="hmrguez.notesplugin.notes.CreateNoteAction"
                 text="Create Note"
-                description="Create a new note">
+                description="Create a new note"
+                icon="/icons/notes.svg">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
     </actions>

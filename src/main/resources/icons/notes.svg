@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <style>
+      .icon-fill { fill: #6C707E; }
+      .icon-stroke { stroke: #6C707E; stroke-width: 0.5; fill: none; }
+
+      /* Dark theme adaptations */
+      @media (prefers-color-scheme: dark) {
+        .icon-fill { fill: #AFB1B3; }
+        .icon-stroke { stroke: #AFB1B3; }
+      }
+    </style>
+  </defs>
+
+  <!-- Notebook base -->
+  <rect x="2" y="1" width="11" height="14" rx="1" fill="none" stroke="#6C707E" stroke-width="0.8"/>
+
+  <!-- Spiral binding holes -->
+  <circle cx="3.5" cy="3" r="0.4" class="icon-fill"/>
+  <circle cx="3.5" cy="5.5" r="0.4" class="icon-fill"/>
+  <circle cx="3.5" cy="8" r="0.4" class="icon-fill"/>
+  <circle cx="3.5" cy="10.5" r="0.4" class="icon-fill"/>
+  <circle cx="3.5" cy="13" r="0.4" class="icon-fill"/>
+
+  <!-- Notebook lines -->
+  <line x1="5.5" y1="4" x2="11.5" y2="4" class="icon-stroke"/>
+  <line x1="5.5" y1="5.5" x2="11.5" y2="5.5" class="icon-stroke"/>
+  <line x1="5.5" y1="7" x2="11.5" y2="7" class="icon-stroke"/>
+  <line x1="5.5" y1="8.5" x2="11.5" y2="8.5" class="icon-stroke"/>
+  <line x1="5.5" y1="10" x2="11.5" y2="10" class="icon-stroke"/>
+  <line x1="5.5" y1="11.5" x2="11.5" y2="11.5" class="icon-stroke"/>
+
+  <!-- Margin line -->
+  <line x1="5" y1="2" x2="5" y2="14" class="icon-stroke"/>
+
+  <!-- Small pen/pencil icon -->
+  <g transform="translate(10.5, 10.5) scale(0.7)">
+    <path d="M1 3.5 L3.5 1 L4.5 2 L2 4.5 Z" class="icon-fill"/>
+    <path d="M1 3.5 L0.5 5 L2 4.5 Z" class="icon-fill"/>
+    <line x1="3.5" y1="1" x2="4.5" y2="2" class="icon-stroke"/>
+  </g>
+</svg>
