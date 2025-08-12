@@ -57,6 +57,7 @@ class NotesToolWindowFactory : ToolWindowFactory, DumbAware {
                 .toSet()
         }
 
+
         val decorated = ToolbarDecorator.createDecorator(list)
             .setAddAction {
                 val text = Messages.showMultilineInputDialog(
@@ -70,16 +71,7 @@ class NotesToolWindowFactory : ToolWindowFactory, DumbAware {
                 if (text != null) {
                     val trimmed = text.trim()
                     if (trimmed.isNotEmpty()) {
-                        val tagsStr = Messages.showInputDialog(
-                            project,
-                            "Enter tags (comma separated). Allowed: ${NotesService.AVAILABLE_TAGS.joinToString(", ")}",
-                            "Tags",
-                            Messages.getQuestionIcon(),
-                            "",
-                            null
-                        )
-                        val tags = parseTags(tagsStr)
-                        notesService.addNote(trimmed, tags)
+                        notesService.addNote(trimmed)
                         refresh()
                     }
                 }

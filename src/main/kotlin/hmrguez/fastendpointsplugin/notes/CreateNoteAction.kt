@@ -25,26 +25,7 @@ class CreateNoteAction : AnAction(), DumbAware {
         val trimmed = text.trim()
         if (trimmed.isEmpty()) return
 
-        // Ask for tags (optional)
-        val tagsStr = Messages.showInputDialog(
-            project,
-            "Enter tags (comma separated). Allowed: ${NotesService.AVAILABLE_TAGS.joinToString(", ")}",
-            "Tags",
-            Messages.getQuestionIcon(),
-            "",
-            null
-        )
-        val tags = parseTags(tagsStr)
-        notesService.addNote(trimmed, tags)
-    }
-
-    private fun parseTags(input: String?): Set<String> {
-        if (input.isNullOrBlank()) return emptySet()
-        return input.split(',')
-            .map { it.trim().lowercase() }
-            .filter { it.isNotEmpty() }
-            .toSet()
-            .filter { NotesService.AVAILABLE_TAGS.contains(it) }
-            .toSet()
+        // Create note with no tags; tags can be edited later in the tool window
+        notesService.addNote(trimmed)
     }
 }
