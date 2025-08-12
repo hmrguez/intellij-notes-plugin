@@ -10,6 +10,9 @@ import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.components.JBList
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.content.ContentFactory
+import com.intellij.openapi.Disposable
+import com.intellij.openapi.util.Disposer
+import com.intellij.openapi.application.ApplicationManager
 import java.awt.BorderLayout
 import javax.swing.DefaultListCellRenderer
 import javax.swing.JList
@@ -128,6 +131,18 @@ class NotesToolWindowFactory : ToolWindowFactory, DumbAware {
         panel.add(decorated, BorderLayout.CENTER)
 
         val content = ContentFactory.getInstance().createContent(panel, "Notes", false)
+
+        // Create a Disposable for this tool window content and subscribe to updates
+        val disposable: Disposable = Disposer.newDisposable("NotesToolWindowDisposable")
+        content.setDisposer(disposable)
+        val connection = project.messageBus.connect(disposable)
+        connection.subscribe(NotesService.TOPIC, object : NotesService.NotesListener {
+            override fun notesChanged() {
+                // Ensure UI updates happen on EDT
+                ApplicationManager.getApplication().invokeLater { refresh() }
+            }
+        })
+
         toolWindow.contentManager.addContent(content)
 
         refresh()
