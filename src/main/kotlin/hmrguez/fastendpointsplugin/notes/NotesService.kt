@@ -62,6 +62,13 @@ class NotesService(private val project: Project) : PersistentStateComponent<Note
         }
     }
 
+    fun updateNoteContent(id: String, content: String) {
+        state.notes.firstOrNull { it.id == id }?.let {
+            it.content = content.trim()
+            project.messageBus.syncPublisher(TOPIC).notesChanged()
+        }
+    }
+
     fun addAvailableTag(tag: String): Boolean {
         val normalized = tag.trim().lowercase()
         if (normalized.isNotEmpty() && !AVAILABLE_TAGS.contains(normalized)) {

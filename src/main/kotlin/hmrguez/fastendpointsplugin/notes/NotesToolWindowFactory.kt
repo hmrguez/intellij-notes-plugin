@@ -120,22 +120,40 @@ class NotesToolWindowFactory : ToolWindowFactory, DumbAware {
             }
         )
 
+        // Create a text area for editing the note content
+        val contentTextArea = com.intellij.ui.components.JBTextArea(note.content).apply {
+            rows = 4
+            lineWrap = true
+            wrapStyleWord = true
+        }
+        val contentScrollPane = com.intellij.ui.components.JBScrollPane(contentTextArea).apply {
+            border = javax.swing.BorderFactory.createTitledBorder("Edit Note Content")
+        }
+
         val dialog = object : com.intellij.openapi.ui.DialogWrapper(project) {
             init {
-                title = "Edit Tags for Note"
+                title = "Edit Note"
                 init()
             }
 
             override fun createCenterPanel(): javax.swing.JComponent {
                 val panel = JPanel(BorderLayout()).apply {
+                    // Note content editor at the top
+                    add(contentScrollPane, BorderLayout.NORTH)
+                    // Tag editor at the bottom
                     add(tagEditor, BorderLayout.CENTER)
-                    preferredSize = java.awt.Dimension(450, 200)
+                    preferredSize = java.awt.Dimension(500, 350)
                 }
                 return panel
             }
         }
 
         if (dialog.showAndGet()) {
+            // Update both content and tags
+            val newContent = contentTextArea.text.trim()
+            if (newContent != note.content) {
+                notesService.updateNoteContent(note.id, newContent)
+            }
             onTagsChanged(tagEditor.getSelectedTags())
         }
     }
